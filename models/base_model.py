@@ -5,13 +5,13 @@ import uuid
 from datetime import datetime
 
 
-class Base:
+class BaseModel:
     """Represents the BaseModel class"""
     def __init__(self, *args, **kwargs):
         """Initializes a new BaseModel"""
         self.id = str(uuid.uuid4())
-        self.created_at = self.updated_at = datetime.now()
-
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
     def __str__(self):
         """Returns a string representation"""
         return "[{}] ({}) <{}>".format(
