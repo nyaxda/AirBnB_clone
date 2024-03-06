@@ -8,10 +8,30 @@ from datetime import datetime
 class BaseModel:
     """Represents the BaseModel class"""
     def __init__(self, *args, **kwargs):
-        """Initializes a new BaseModel"""
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+        """Initializes a new BaseModel
+
+        If kwargs is not empty, it will regenerate the instance
+        else it will create a new instance
+
+        Args:
+            args (tuple) - positional arguements
+            kwargs (list) - keyword/named arguements of an object
+        """
+        if kwargs:
+            for key, value in kwargs.items():
+                if key == "__class__":
+                    pass
+                elif key in ("created_at", "updated_at"):
+                    datetime_obj = datetime.fromisoformat(value)
+                    self.__dict__[key] = datetime_obj
+                    # setattr(self, key, datetime_obj)
+                else:
+                    self.__dict__[key] = value
+                    # setattr(self, key, value)
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
 
     def __str__(self):
         """Returns a string representation"""
