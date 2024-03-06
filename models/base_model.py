@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/python3
 """Defines a base class for all models in this project"""
 import json
 import uuid
@@ -14,7 +14,7 @@ class BaseModel:
         self.updated_at = datetime.now()
     def __str__(self):
         """Returns a string representation"""
-        return "[{}] ({}) <{}>".format(
+        return "[{}] ({}) {}".format(
             self.__class__.__name__, self.id, self.__dict__)
 
     def save(self):
@@ -31,8 +31,6 @@ class BaseModel:
         """
         duplicate_dict = self.__dict__.copy()
         duplicate_dict["__class__"] = self.__class__.__name__
-        duplicate_dict["created_at"] = self.created_at.isoformat(
-            "%Y-%m-%dT%H:%M:%S.%f")
-        duplicate_dict["updated_at"] = self.updated_at.isoformat(
-            "%Y-%m-%dT%H:%M:%S.%f")
+        duplicate_dict["created_at"] = self.created_at.isoformat()
+        duplicate_dict["updated_at"] = self.updated_at.isoformat()
         return duplicate_dict
