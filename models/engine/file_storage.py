@@ -14,7 +14,7 @@ class FileStorage:
 
     def all(self):
         """return __object dict"""
-        return __objects
+        return self.__objects
 
     def new(self, obj):
         """sets in __object the obj with key
@@ -23,7 +23,7 @@ class FileStorage:
         Args:
             obj (obj) - python baseModel object
         """
-        key = f"{}.{}".format(obj.__class__.__name__, obj.id)
+        key = "{}.{}".format(obj.__class__.__name__, obj.id)
         self.__objects[key] = obj
 
     def save(self):
