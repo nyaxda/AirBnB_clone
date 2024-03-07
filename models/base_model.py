@@ -28,7 +28,7 @@ class BaseModel:
                     setattr(self, key, value)
         else:
             self.created_at = datetime.now()
-            
+
             self.updated_at = datetime.now()
             # call new() in storage engine to append the new instance
             storage.new(self)
@@ -56,4 +56,3 @@ class BaseModel:
         duplicate_dict["created_at"] = self.created_at.isoformat()
         duplicate_dict["updated_at"] = self.updated_at.isoformat()
         return duplicate_dict
-
