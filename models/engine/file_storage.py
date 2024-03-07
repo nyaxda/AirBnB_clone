@@ -60,7 +60,7 @@ class FileStorage:
         class_name = object_dict['__class__']
         if class_name == 'User':
             return User(**object_dict)
-         elif class_name == 'State':
+        elif class_name == 'State':
             return State(**object_dict)
         elif class_name == 'City':
             return City(**object_dict)
