@@ -3,19 +3,27 @@
 import cmd
 import sys
 from models.base_model import BaseModel
-from models.engine.file_storage import FileStorage
+from models.user import User
+from models import storage
+from models.base_model import BaseModel
+from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
     """Command interpreter class. Contains entry point for it."""
+    classes = ["BaseModel", "User"]
     prompt = "(hbnb) "
+
+    def __init__(self):
+        super().__init__()
+        self.storage = storage
 
     def do_EOF(self):
         """EOF command to exit the program"""
         print()
         return True
 
-    def do_quit(self):
+    def do_quit(self, arg):
         """Quit command to exit the program"""
         sys.exit(1)
 
@@ -29,11 +37,14 @@ class HBNBCommand(cmd.Cmd):
         if not arg:
             print("** class name missing **")
             return
-        elif arg != "BaseModel":
+        elif arg not in self.classes:
             print("** class doesn't exist **")
             return
         else:
-            creation = BaseModel()
+            if arg == "BaseModel":
+                creation = BaseModel()
+            elif arg == "User":
+                creation = User()
             self.storage.new(creation)
             self.storage.save()
             print(creation.id)
@@ -45,7 +56,7 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        if args[0] != "BaseModel":
+        if args[0] not in self.classes:
             print("** class doesn't exist **")
             return
         elif len(args) == 1:
@@ -91,12 +102,14 @@ class HBNBCommand(cmd.Cmd):
         args = arg.split()
         self.storage.reload()
         objects = self.storage.all()
-        if args and args[0] != "BaseModel":
+        if args and args[0] not in self.classes:
             print("** class doesn't exist **")
             return
-        for key, obj in objects.items():
-            if not args or args[0] == "BaseModel":
-                print(str(obj))
+        string_instances = [
+            str(objects)
+            for key, objects in objects.items()
+            if not args or key.startswith(args[0] + ".")]
+        print(string_instances)
 
     def update(self, arg):
         """Updates an instance based on the class name and
@@ -107,7 +120,7 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        if args[0] != "BaseModel":
+        if args[0] not in self.classes:
             print("** class doesn't exist **")
             return
         elif len(args) == 1:
@@ -125,7 +138,7 @@ class HBNBCommand(cmd.Cmd):
             key = args[0] + '.' + args[1]
             if key not in objects:
                 print("** no instance found **")
-            if argss[2] in static_attr:
+            if args[2] in static_attr:
                 return
             item = objects[key]
             try:

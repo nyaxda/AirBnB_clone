@@ -15,7 +15,7 @@ class BaseModel:
 
         Args:
             args (tuple) - positional arguements
-            kwargs (list) - keyword/named arguements of an object
+            kwargs (list) - keyword/named arguments of an object
         """
         if kwargs:
             for key, value in kwargs.items():
@@ -23,14 +23,12 @@ class BaseModel:
                     pass
                 elif key in ("created_at", "updated_at"):
                     datetime_obj = datetime.fromisoformat(value)
-                    self.__dict__[key] = datetime_obj
-                    # setattr(self, key, datetime_obj)
+                    setattr(self, key, datetime_obj)
                 else:
-                    self.__dict__[key] = value
-                    # setattr(self, key, value)
+                    setattr(self, key, value)
         else:
-            self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
+            
             self.updated_at = datetime.now()
             # call new() in storage engine to append the new instance
             storage.new(self)
@@ -58,17 +56,4 @@ class BaseModel:
         duplicate_dict["created_at"] = self.created_at.isoformat()
         duplicate_dict["updated_at"] = self.updated_at.isoformat()
         return duplicate_dict
-    
-    @classmethod
-    def from_dict(cls, dict_obj):
-        """
-        Returns an object of BaseModel created from a dictionary
-        """
-        obj = cls()
-        for key, value in dict_obj.items():
-            if key == "created_at" or key == "updated_at":
-                datetime_obj = datetime.fromisoformat(value)
-                setattr(obj, key, datetime_obj)
-            else:
-                setattr(obj, key, value)
-        return obj
+

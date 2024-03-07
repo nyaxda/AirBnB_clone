@@ -2,8 +2,6 @@
 """an storage engine implementation"""
 from os import path
 import json
-from models.base_model import BaseModel
-
 
 class FileStorage:
     """serialize instances to and from JSON file and deserialize
@@ -21,7 +19,7 @@ class FileStorage:
         possessing syntax <obj classname>.id
 
         Args:
-            obj (obj) - python baseModel object
+            obj (obj) - python BaseModel object
         """
         key = "{}.{}".format(obj.__class__.__name__, obj.id)
         self.__objects[key] = obj
@@ -42,4 +40,13 @@ class FileStorage:
         if path.exists(self.__file_path):
             with open(self.__file_path, mode='r', encoding='utf-8') as f:
                 des_objects = json.loads(f.read())
-                self.__objects = {k: BaseModel.from_dict(v) for k, v in des_objects.items()}
+                self.__objects = {k: self.create_object(v) for k, v in des_objects.items()}
+
+    def create_object(self, object_dict):
+        """This method is used to create an object of the class based on the dictionary"""
+        from models.base_model import BaseModel
+        from models.user import User
+        if object_dict['__class__'] == 'User':
+            return User(**object_dict)
+        else:
+            return BaseModel(**object_dict)
