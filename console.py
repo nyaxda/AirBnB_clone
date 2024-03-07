@@ -14,7 +14,8 @@ from models.place import Place
 
 class HBNBCommand(cmd.Cmd):
     """Command interpreter class. Contains entry point for it."""
-    classes = ["BaseModel", "User", "State", "City", "Amenity", "Place", "Review"]
+    classes = ["BaseModel", "User",
+               "State", "City", "Amenity", "Place", "Review"]
     prompt = "(hbnb) "
 
     def __init__(self):
