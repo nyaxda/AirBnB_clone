@@ -5,13 +5,16 @@ import sys
 from models.base_model import BaseModel
 from models.user import User
 from models import storage
-from models.base_model import BaseModel
-from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
+from models.place import Place
 
 
 class HBNBCommand(cmd.Cmd):
     """Command interpreter class. Contains entry point for it."""
-    classes = ["BaseModel", "User"]
+    classes = ["BaseModel", "User", "State", "City", "Amenity", "Place", "Review"]
     prompt = "(hbnb) "
 
     def __init__(self):
@@ -41,10 +44,20 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         else:
-            if arg == "BaseModel":
+            if arg == self.classes[0]:
                 creation = BaseModel()
-            elif arg == "User":
+            elif arg == self.classes[1]:
                 creation = User()
+            elif arg == self.classes[2]:
+                creation = State()
+            elif arg == self.classes[3]:
+                creation = City()
+            elif arg == self.classes[4]:
+                creation = Amenity()
+            elif arg == self.classes[5]:
+                creation = Place()
+            elif arg == self.classes[6]:
+                creation = Review()
             self.storage.new(creation)
             self.storage.save()
             print(creation.id)
@@ -79,7 +92,7 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        if args[0] != "BaseModel":
+        if args[0] not in self.classes:
             print("** class doesn't exist **")
             return
         elif len(args) == 1:
