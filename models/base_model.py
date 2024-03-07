@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 """Defines a base class for all models in this project"""
-import json
 import uuid
 from datetime import datetime
+from models import storage
 
 
 class BaseModel:
@@ -32,6 +32,8 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            # call new() in storage engine to append the new instance
+            self.storage.new()
 
     def __str__(self):
         """Returns a string representation"""
@@ -44,6 +46,7 @@ class BaseModel:
         `updated at` with the current datetime
         """
         self.updated_at = datetime.now()
+        self.storage.save()
 
     def to_dict(self):
         """
