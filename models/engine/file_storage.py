@@ -2,6 +2,7 @@
 """an storage engine implementation"""
 from os import path
 import json
+from models.base_model import BaseModel
 
 
 class FileStorage:
@@ -29,8 +30,9 @@ class FileStorage:
         """serializes __objects to JSON file(__file_path)
         """
         if self.__objects:
+            ser_objects = {k: v.to_dict() for k, v in self.__objects.items()}
             with open(self.__file_path, mode='w', encoding='utf-8') as f:
-                f.write(json.dumps(self.__objects))
+                f.write(json.dumps(ser_objects))
 
     def reload(self):
         """
@@ -39,4 +41,5 @@ class FileStorage:
         """
         if path.exists(self.__file_path):
             with open(self.__file_path, mode='r', encoding='utf-8') as f:
-                self.__objects = json.loads(f.read())
+                des_objects = json.loads(f.read())
+                self.__objects = {k: BaseModel.from_dict(v) for k, v in des_objects.items()}

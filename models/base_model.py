@@ -58,3 +58,17 @@ class BaseModel:
         duplicate_dict["created_at"] = self.created_at.isoformat()
         duplicate_dict["updated_at"] = self.updated_at.isoformat()
         return duplicate_dict
+    
+    @classmethod
+    def from_dict(cls, dict_obj):
+        """
+        Returns an object of BaseModel created from a dictionary
+        """
+        obj = cls()
+        for key, value in dict_obj.items():
+            if key == "created_at" or key == "updated_at":
+                datetime_obj = datetime.fromisoformat(value)
+                setattr(obj, key, datetime_obj)
+            else:
+                setattr(obj, key, value)
+        return obj

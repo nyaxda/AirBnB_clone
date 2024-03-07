@@ -34,7 +34,8 @@ class HBNBCommand(cmd.Cmd):
             return
         else:
             creation = BaseModel()
-            creation.save()
+            self.storage.new(creation)
+            self.storage.save()
             print(creation.id)
 
     def do_show(self, arg):
@@ -132,7 +133,7 @@ class HBNBCommand(cmd.Cmd):
                 item.__dict__[args[2]] = attribute_type(args[3])
             except AttributeError:
                 item.__dict__[args[2]] = args[3]
-            item.save()
+            self.storage.save()
 
 
 if __name__ == '__main__':
