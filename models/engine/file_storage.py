@@ -8,7 +8,7 @@ class FileStorage:
     """serialize instances to and from JSON file and deserialize
     JSON file to instances
     """
-    __file_path = 'storage.json'
+    __file_path = 'file.json'
     __objects = {}
     classes = ["BaseModel", "User", "State", "City", "Amenity", "Review"]
 
@@ -41,9 +41,14 @@ class FileStorage:
         """
         if path.exists(self.__file_path):
             with open(self.__file_path, mode='r', encoding='utf-8') as f:
-                des_objects = json.loads(f.read())
-                self.__objects = {
+                #check if file is empty
+                contents = f.read()
+                if contents:
+                    des_objects = json.loads(contents)
+                    self.__objects = {
                     k: self.create_object(v) for k, v in des_objects.items()}
+                else:
+                    return
 
     def create_object(self, object_dict):
         """
