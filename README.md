@@ -1,7 +1,5 @@
 # 0x00. AirBnB clone - The console
-
-![HBNB](https://drive.google.com/file/d/1tAYanJLZnVpKHXY9SXQQ92XYAFIGKyjz/view?usp=sharing)
-
+![AirBnB clone Website](https://media.licdn.com/dms/image/D4D12AQFaPRt92UdRoQ/article-cover_image-shrink_600_2000/0/1699544842196?e=1715212800&v=beta&t=iYmZMoBzc6oiz0Mkwq52c1PajXtHOoIktuZFetC4bps)
 This is one of the alx projects aimed at deploying on my server a simple copy of the [AirBnB website](https://www.airbnb.com/)
 At this stage, the task to be accomplished is to create a command interpreter to manipulate data without a visual interface, like in a Shell.
 ## Command Interperter
