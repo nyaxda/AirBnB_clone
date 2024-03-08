@@ -2,7 +2,7 @@
 import unittest
 from models.base_model import BaseModel
 from datetime import datetime
-
+from models.engine.file_storage import FileStorage
 
 class TestBaseModel(unittest.TestCase):
     """Test cases for BaseModel class"""
@@ -20,6 +20,17 @@ class TestBaseModel(unittest.TestCase):
         self.assertIsInstance(self.tester.created_at, datetime)
         self.assertIsInstance(self.tester.updated_at, datetime)
         self.assertEqual(type(self.tester.id), str)
+
+    def test_kwargs(self):
+        self.tester.save()
+        store1 = FileStorage()
+        # self.assertEqual(len(store1.all()), 0)
+        tester_dict = self.tester.to_dict()
+
+        tester2 = BaseModel(**tester_dict)
+        tester2.save()
+        store2 = FileStorage()
+        self.assertEqual(len(store2.all()), 0)
 
     def test_str_method(self):
         """Test __str__ method"""
