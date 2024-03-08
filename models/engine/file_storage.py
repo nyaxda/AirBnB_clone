@@ -8,7 +8,7 @@ class FileStorage:
     """serialize instances to and from JSON file and deserialize
     JSON file to instances
     """
-    __file_path = 'file.json'
+    __file_path = 'storage.json'
     __objects = {}
     classes = ["BaseModel", "User", "State", "City", "Amenity", "Review"]
 
@@ -31,7 +31,7 @@ class FileStorage:
         """
         if self.__objects:
             ser_objects = {k: v.to_dict() for k, v in self.__objects.items()}
-            with open(self.__file_path, mode='w', encoding='utf-8') as f:
+            with open(self.__file_path, mode='a', encoding='utf-8') as f:
                 f.write(json.dumps(ser_objects))
 
     def reload(self):

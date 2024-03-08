@@ -19,6 +19,7 @@ class TestBaseModel(unittest.TestCase):
         self.assertTrue(hasattr(self.tester, 'updated_at'))
         self.assertIsInstance(self.tester.created_at, datetime)
         self.assertIsInstance(self.tester.updated_at, datetime)
+        self.assertEqual(type(self.tester.name), str)
 
     def test_str_method(self):
         """Test __str__ method"""
@@ -38,11 +39,10 @@ class TestBaseModel(unittest.TestCase):
         tester_dict = self.tester.to_dict()
         self.assertEqual(tester_dict['id'], self.tester.id)
         self.assertEqual(tester_dict['__class__'], 'BaseModel')
+        self.assertIsinstance(tester_dict['created_at'], str)
         self.assertEqual(
             tester_dict['created_at'], self.tester.created_at.isoformat())
+        self.assertIsinstance(tester_dict['updated_at'], str)
         self.assertEqual(
             tester_dict['updated_at'], self.tester.updated_at.isoformat())
-
-
-if __name__ == '__main__':
-    unittest.main()
+        self.Assert
