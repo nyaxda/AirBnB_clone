@@ -1,6 +1,6 @@
 # 0x00. AirBnB clone - The console
 
-![HBNB](https://s3.amazonaws.com/alx-intranet.hbtn.io/uploads/medias/2018/6/65f4a1dd9c51265f49d0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIARDDGGGOUSBVO6H7D/20240308/us-east-1/s3/aws4_request&X-Amz-Date=20240308T124914Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=7b094718160836826d02bf01a465b941342a3004392dea9f66509fc5dd1a423a)
+![HBNB](https://drive.google.com/file/d/1tAYanJLZnVpKHXY9SXQQ92XYAFIGKyjz/view?usp=sharing)
 
 This is one of the alx projects aimed at deploying on my server a simple copy of the [AirBnB website](https://www.airbnb.com/)
 At this stage, the task to be accomplished is to create a command interpreter to manipulate data without a visual interface, like in a Shell.
