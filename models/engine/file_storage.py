@@ -12,6 +12,14 @@ class FileStorage:
     __objects = {}
     classes = ["BaseModel", "User", "State", "City", "Amenity", "Review"]
 
+    def clear_objects(self):
+        """clears __obj for retaining a clean dict"""
+        self.__objects.clear()
+
+    def path(self):
+        """return file_path"""
+        return self.__file_path
+
     def all(self):
         """return __object dict"""
         return self.__objects
