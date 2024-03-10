@@ -62,8 +62,7 @@ class HBNBCommand(cmd.Cmd):
                 creation = Place()
             elif arg == self.classes[6]:
                 creation = Review()
-            storage.new(creation)
-            storage.save()
+            creation.save()
             print(creation.id)
 
     def do_show(self, arg):
@@ -71,41 +70,32 @@ class HBNBCommand(cmd.Cmd):
         instance based on the class name and id.
         """
         args = arg.split()
-        if not args:
+        if len(args) == 0:
             print("** class name missing **")
-            return
-        if args[0] not in self.classes:
+        elif args[0] not in self.classes:
             print("** class doesn't exist **")
-            return
         elif len(args) == 1:
             print("** instance id missing **")
-            return
         else:
-            storage.reload()
             objects = storage.all()
             key = args[0] + '.' + args[1]
             if key in objects:
                 print(objects[key])
             else:
                 print("** no instance found **")
-                return
 
     def do_destroy(self, arg):
         """Deletes an instance based on the class name and id
         (save the change into the JSON file).
         """
         args = arg.split()
-        if not args:
+        if len(args) == 0:
             print("** class name missing **")
-            return
-        if args[0] not in self.classes:
+        elif args[0] not in self.classes:
             print("** class doesn't exist **")
-            return
         elif len(args) == 1:
             print("** instance id missing **")
-            return
         else:
-            storage.reload()
             objects = storage.all()
             key = args[0] + '.' + args[1]
             if key in objects:
@@ -113,7 +103,6 @@ class HBNBCommand(cmd.Cmd):
                 storage.save()
             else:
                 print("** no instance found **")
-                return
 
     def do_all(self, arg):
         """Prints all string representation of all
@@ -128,42 +117,36 @@ class HBNBCommand(cmd.Cmd):
             print([str(obj) for obj in storage.all().values()])
 
     def do_update(self, line):
-            """usage update <class name> <id> <attribute name>
-            "<attribute value>"""
-            args = line.split()
-            if len(args) == 0:
-                print("** class name missing **")
-            elif args[0] not in self.classes:
-                print("** class doesn't exist **")
-            elif len(args) == 1:
-                print("** instance id missing **")
-            elif len(args) == 2:
-                print("** attribute name missing **")
-            elif len(args) == 3:
-                print("** value missing **")
+        """usage update <class name> <id> <attr name> <attr value>"""
+        args = line.split()
+        if len(args) == 0:
+            print("** class name missing **")
+        elif args[0] not in self.classes:
+            print("** class doesn't exist **")
+        elif len(args) == 1:
+            print("** instance id missing **")
+        elif len(args) == 2:
+            print("** attribute name missing **")
+        elif len(args) == 3:
+            print("** value missing **")
+        else:
+            key = "{}.{}".format(args[0], args[1])
+            if key not in storage.all():
+                print("** no instance found **")
             else:
-                key = "{}.{}".format(args[0], args[1])
-                if key not in storage.all():
-                    print("** no instance found **")
-                else:
-                    if args[2] not in ["id", "created_at", "updated_at"]:
-                        setattr(storage.all()[key], args[2], args[3].strip('"'))
-                        storage.all()[key].save()
+                if args[2] not in ["id", "created_at", "updated_at"]:
+                    setattr(storage.all()[key], args[2], args[3].strip('"'))
+                    storage.all()[key].save()
 
     def do_count(self, arg):
         """Counts all instances based or not on the class name.
         """
-        args = arg.split()
-        storage.reload()
+        count = 0
         objects = storage.all()
-        if args and args[0] not in self.classes:
-            print("** class doesn't exist **")
-            return
-        string_instances = [
-            str(objects)
-            for key, objects in objects.items()
-            if not args or key.startswith(args[0] + ".")]
-        return len(string_instances)
+        for objects in objects.values():
+            if objects.__class__.__name__ == arg:
+                count += 1
+        print(count)
 
     def default(self, arg):
         """Default method for command interpreter.
@@ -179,7 +162,7 @@ class HBNBCommand(cmd.Cmd):
                 if methodname == 'all()':
                     self.do_all(classname)
                 elif methodname == 'count()':
-                    print(self.do_count(classname))
+                    self.do_count(classname)
                 elif methodname.startswith("show"):
                     open = methodname.find("(") + 1
                     close = methodname.find(")")
