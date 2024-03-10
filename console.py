@@ -122,59 +122,33 @@ class HBNBCommand(cmd.Cmd):
         if arg and arg not in self.classes:
             print("** class doesn't exist **")
         elif arg in self.classes:
-            for obj in storage.all().values():
-                if obj.__class__.__name__ == arg:
-                    print(obj)
+            print([str(obj) for obj in storage.all().values()
+                   if obj.__class__.__name__ == arg])
         else:
-            for obj in storage.all().values():
-                print(obj)
+            print([str(obj) for obj in storage.all().values()])
 
-    def do_update(self, arg):
-        """Updates an instance based on the class name and
-        id by adding or updating attribute
-        (save the change into the JSON file).
-        """
-        args = arg.split(maxsplit=3)
-        static_attr = ["id", "created_at", "updated_at"]
-        if not args:
-            print("** class name missing **")
-            return
-        if args[0] not in self.classes:
-            print("** class doesn't exist **")
-            return
-        elif len(args) == 1:
-            print("** instance id missing **")
-            return
-        elif len(args) == 2:
-            print("** attribute name missing **")
-            return
-        elif len(args) == 3:
-            print("** value missing **")
-            return
-        else:
-            storage.reload()
-            objects = storage.all()
-            key = args[0] + '.' + args[1]
-            if key not in objects:
-                print("** no instance found **")
-                return
-            if args[2] in static_attr:
-                return
-            item = objects[key]
-            try:
-                attribute_type = type(getattr(item, args[2]))
-                if attribute_type is int:
-                    new_value = int(args[3])
-                elif attribute_type is float:
-                    new_value = float(args[3])
-                elif attribute_type is str:
-                    new_value = str(args[3].strip('"'))
+    def do_update(self, line):
+            """usage update <class name> <id> <attribute name>
+            "<attribute value>"""
+            args = line.split()
+            if len(args) == 0:
+                print("** class name missing **")
+            elif args[0] not in self.classes:
+                print("** class doesn't exist **")
+            elif len(args) == 1:
+                print("** instance id missing **")
+            elif len(args) == 2:
+                print("** attribute name missing **")
+            elif len(args) == 3:
+                print("** value missing **")
+            else:
+                key = "{}.{}".format(args[0], args[1])
+                if key not in storage.all():
+                    print("** no instance found **")
                 else:
-                    new_value = args[3]
-                item.__dict__[args[2]] = new_value
-            except AttributeError:
-                item.__dict__[args[2]] = args[3]
-            objects[key].save()
+                    if args[2] not in ["id", "created_at", "updated_at"]:
+                        setattr(storage.all()[key], args[2], args[3].strip('"'))
+                        storage.all()[key].save()
 
     def do_count(self, arg):
         """Counts all instances based or not on the class name.
