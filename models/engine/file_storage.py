@@ -63,24 +63,24 @@ class FileStorage:
         of the class based on the dictionary
         """
         from models.base_model import BaseModel
-        from models.user import User
-        from models.state import State
-        from models.city import City
-        from models.amenity import Amenity
-        from models.review import Review
-        from models.place import Place
         class_name = object_dict['__class__']
         if class_name == 'User':
+            from models.user import User
             return User(**object_dict)
         elif class_name == 'State':
+            from models.state import State
             return State(**object_dict)
         elif class_name == 'City':
+            from models.city import City
             return City(**object_dict)
         elif class_name == 'Amenity':
+            from models.amenity import Amenity
             return Amenity(**object_dict)
         elif class_name == 'Review':
+            from models.review import Review
             return Review(**object_dict)
         elif class_name == 'Place':
+            from models.place import Place
             return Place(**object_dict)
         else:
             return BaseModel(**object_dict)
