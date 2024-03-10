@@ -120,7 +120,7 @@ class HBNBCommand(cmd.Cmd):
         instances based or not on the class name.
         """
         if arg and arg not in self.classes:
-            print("Class not found")
+            print("** class doesn't exist **")
         elif arg in self.classes:
             for obj in storage.all().values():
                 if obj.__class__.__name__ == arg:
@@ -135,9 +135,6 @@ class HBNBCommand(cmd.Cmd):
         (save the change into the JSON file).
         """
         args = arg.split(maxsplit=3)
-        print("This is arg: ", arg)
-        print("This is args: ", args)
-        print(args)
         static_attr = ["id", "created_at", "updated_at"]
         if not args:
             print("** class name missing **")
@@ -177,8 +174,6 @@ class HBNBCommand(cmd.Cmd):
                 item.__dict__[args[2]] = new_value
             except AttributeError:
                 item.__dict__[args[2]] = args[3]
-            print("Here is the item before it gets saved:", objects[key])
-            # self.do_destroy(args[0] + " " + args[1] )
             objects[key].save()
 
     def do_count(self, arg):
