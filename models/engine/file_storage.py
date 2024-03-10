@@ -48,12 +48,13 @@ class FileStorage:
         """
         if path.exists(self.__file_path):
             with open(self.__file_path, mode='r', encoding='utf-8') as f:
-                #check if file is empty
+                # check if file is empty
                 contents = f.read()
                 if contents:
                     des_objects = json.loads(contents)
-                    self.__objects = {
-                    k: self.create_object(v) for k, v in des_objects.items()}
+                    self.__objects = {k: self.create_object(v)
+                                      for k, v in des_objects.items()
+                                      }
                 else:
                     return
 
