@@ -29,6 +29,10 @@ class HBNBCommand(cmd.Cmd):
     def do_quit(self, arg):
         """Quit command to exit the program"""
         return True
+    
+    def help_quit(self):
+        print("Quit command to exit the program")
+        print()
 
     def emptyline(self):
         """Do nothing on empty input line"""
@@ -190,6 +194,7 @@ class HBNBCommand(cmd.Cmd):
         return len(string_instances)
 
     def default(self, arg):
+        """Default method for command interpreter"""
         args = arg.split('.')
         if len(args) >= 2:
             classname = args[0]
