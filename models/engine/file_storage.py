@@ -14,15 +14,15 @@ class FileStorage:
 
     def clear_objects(self):
         """clears __obj for retaining a clean dict"""
-        self.__objects.clear()
+        FileStorage.__objects.clear()
 
     def path(self):
         """return file_path"""
-        return self.__file_path
+        return FileStorage.__file_path
 
     def all(self):
         """return __object dict"""
-        return self.__objects
+        return FileStorage.__objects
 
     def new(self, obj):
         """sets in __object the obj with key
@@ -32,12 +32,12 @@ class FileStorage:
             obj (obj) - python BaseModel object
         """
         key = "{}.{}".format(obj.__class__.__name__, obj.id)
-        self.__objects[key] = obj
+        FileStorage.__objects[key] = obj
 
     def save(self):
         """serializes __objects to JSON file(__file_path)
         """
-        ser_objects = {k: v.to_dict() for k, v in self.__objects.items()}
+        ser_objects = {k: v.to_dict() for k, v in FileStorage.__objects.items()}
         with open(self.__file_path, mode='w', encoding='utf-8') as f:
             f.write(json.dumps(ser_objects))
 
@@ -46,13 +46,13 @@ class FileStorage:
         deserializes JSON file(__file_path) to __objects only if JSON
         file exist, otherwise, do nothing
         """
-        if path.exists(self.__file_path):
-            with open(self.__file_path, mode='r', encoding='utf-8') as f:
+        if path.exists(FileStorage.__file_path):
+            with open(FileStorage.__file_path, mode='r', encoding='utf-8') as f:
                 # check if file is empty
                 contents = f.read()
                 if contents:
                     des_objects = json.loads(contents)
-                    self.__objects = {k: self.create_object(v)
+                    FileStorage.__objects = {k: self.create_object(v)
                                       for k, v in des_objects.items()
                                       }
                 else:
