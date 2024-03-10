@@ -17,7 +17,7 @@ class BaseModel:
             args (tuple) - positional arguements
             kwargs (list) - keyword/named arguments of an object
         """
-        if kwargs:
+        if kwargs is not None and kwargs != {}:
             for key, value in kwargs.items():
                 if key == "__class__":
                     pass

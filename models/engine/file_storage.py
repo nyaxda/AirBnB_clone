@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """an storage engine implementation"""
-from os import path
 import json
+import datetime
 
 
 class FileStorage:
@@ -10,7 +10,6 @@ class FileStorage:
     """
     __file_path = 'file.json'
     __objects = {}
-    classes = ["BaseModel", "User", "State", "City", "Amenity", "Review"]
 
     def clear_objects(self):
         """clears __obj for retaining a clean dict"""
@@ -37,7 +36,8 @@ class FileStorage:
     def save(self):
         """serializes __objects to JSON file(__file_path)
         """
-        ser_objects = {k: v.to_dict() for k, v in FileStorage.__objects.items()}
+        ser_objects = {k: v.to_dict() for k, v in
+                       FileStorage.__objects.items()}
         with open(self.__file_path, mode='w', encoding='utf-8') as f:
             f.write(json.dumps(ser_objects))
 
@@ -46,17 +46,16 @@ class FileStorage:
         deserializes JSON file(__file_path) to __objects only if JSON
         file exist, otherwise, do nothing
         """
-        if path.exists(FileStorage.__file_path):
-            with open(FileStorage.__file_path, mode='r', encoding='utf-8') as f:
-                # check if file is empty
-                contents = f.read()
-                if contents:
-                    des_objects = json.loads(contents)
-                    FileStorage.__objects = {k: self.create_object(v)
-                                      for k, v in des_objects.items()
-                                      }
-                else:
-                    return
+        try:
+            with open(FileStorage.__file_path,
+                      mode='r', encoding='utf-8') as f:
+                des_objects = json.load(f)
+                FileStorage.__objects = {k: self.create_object(v)
+                                         for k, v in des_objects.items()}
+        except FileNotFoundError:
+            return
+        except Exception as f:
+            raise f
 
     def create_object(self, object_dict):
         """
@@ -85,3 +84,39 @@ class FileStorage:
             return Place(**object_dict)
         else:
             return BaseModel(**object_dict)
+
+    def attributes(self):
+        """Returns the valid attributes and their types for classname"""
+        attributes = {
+            "BaseModel": {"id": str, "created_at": datetime.datetime,
+                          "updated_at": datetime.datetime},
+            "User": {"email": str, "password": str, "first_name": str,
+                     "last_name": str},
+            "Place": {"city_id": str, "user_id": str, "name": str,
+                      "description": str, "number_rooms": int,
+                      "number_bathrooms": int, "max_guest": int,
+                      "price_by_night": int, "latitude": float,
+                      "longitude": float, "amenity_ids": list},
+            "State": {"name": str},
+            "City": {"state_id": str, "name": str},
+            "Review": {"place_id": str, "user_id": str,
+                       "text": str},
+            "Amenity": {"name": str}
+        }
+        return attributes
+
+    def classes(self):
+        """Returns a dictionary of valid classes and their references"""
+        from models.base_model import BaseModel
+        from models.amenity import Amenity
+        from models.user import User
+        from models.state import State
+        from models.review import Review
+        from models.city import City
+        from models.place import Place
+
+        classes = {"BaseModel": BaseModel, "User": User,
+                   "State": State, "City": City,
+                   "Amenity": Amenity, "Place": Place,
+                   "Review": Review}
+        return classes
