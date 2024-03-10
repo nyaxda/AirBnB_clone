@@ -18,9 +18,6 @@ class HBNBCommand(cmd.Cmd):
                "State", "City", "Amenity", "Place", "Review"]
     prompt = "(hbnb) "
 
-    def __init__(self):
-        super().__init__()
-
     def do_EOF(self, args):
         """EOF command to exit the program
         """
