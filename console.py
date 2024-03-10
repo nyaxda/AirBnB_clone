@@ -40,10 +40,8 @@ class HBNBCommand(cmd.Cmd):
         """
         if not arg or if arg == "":
             print("** class name missing **")
-            return
         elif arg not in self.classes:
             print("** class doesn't exist **")
-            return
         else:
             if arg == self.classes[0]:
                 creation = BaseModel()
@@ -145,46 +143,46 @@ class HBNBCommand(cmd.Cmd):
                 count += 1
         print(count)
 
-    # def default(self, arg):
-    #     """Default method for command interpreter.
-    #     """
-    #     args = arg.split('.')
-    #     if len(args) >= 2:
-    #         classname = args[0]
-    #         methodname = args[1]
-    #         if classname not in self.classes:
-    #             print("** class doesn't exist **")
-    #             return
-    #         else:
-    #             if methodname == 'all()':
-    #                 self.do_all(classname)
-    #             elif methodname == 'count()':
-    #                 self.do_count(classname)
-    #             elif methodname.startswith("show"):
-    #                 open = methodname.find("(") + 1
-    #                 close = methodname.find(")")
-    #                 instanceid = methodname[open:close].strip('"')
-    #                 self.do_show(classname + " " + instanceid)
-    #             elif methodname.startswith("destroy"):
-    #                 open = methodname.find("(") + 1
-    #                 close = methodname.find(")")
-    #                 instanceid = methodname[open:close]
-    #                 self.do_destroy(classname + " " + instanceid)
-    #             elif methodname.startswith("update"):
-    #                 open = methodname.find("(") + 1
-    #                 close = methodname.find(")")
-    #                 attribute = methodname[open:close]
-    #                 comma1 = attribute.find(',')
-    #                 comma2 = attribute.find(',', comma1 + 1)
-    #                 id = attribute[:comma1].strip().strip('"')
-    #                 attribute_name = attribute[
-    #                     comma1 + 1: comma2].strip().strip('"')
-    #                 print("Here is the attribute name:", attribute_name)
-    #                 attribute_value = attribute[comma2 + 1:]
-    #                 self.do_update(
-    #                     classname + " " +
-    #                     id + " " + attribute_name + " " +
-    #                     attribute_value)
+    def default(self, arg):
+        """Default method for command interpreter.
+        """
+        args = arg.split('.')
+        if len(args) >= 2:
+            classname = args[0]
+            methodname = args[1]
+            if classname not in self.classes:
+                print("** class doesn't exist **")
+                return
+            else:
+                if methodname == 'all()':
+                    self.do_all(classname)
+                elif methodname == 'count()':
+                    self.do_count(classname)
+                elif methodname.startswith("show"):
+                    open = methodname.find("(") + 1
+                    close = methodname.find(")")
+                    instanceid = methodname[open:close].strip('"')
+                    self.do_show(classname + " " + instanceid)
+                elif methodname.startswith("destroy"):
+                    open = methodname.find("(") + 1
+                    close = methodname.find(")")
+                    instanceid = methodname[open:close]
+                    self.do_destroy(classname + " " + instanceid)
+                elif methodname.startswith("update"):
+                    open = methodname.find("(") + 1
+                    close = methodname.find(")")
+                    attribute = methodname[open:close]
+                    comma1 = attribute.find(',')
+                    comma2 = attribute.find(',', comma1 + 1)
+                    id = attribute[:comma1].strip().strip('"')
+                    attribute_name = attribute[
+                        comma1 + 1: comma2].strip().strip('"')
+                    print("Here is the attribute name:", attribute_name)
+                    attribute_value = attribute[comma2 + 1:]
+                    self.do_update(
+                        classname + " " +
+                        id + " " + attribute_name + " " +
+                        attribute_value)
 
 
 if __name__ == '__main__':
