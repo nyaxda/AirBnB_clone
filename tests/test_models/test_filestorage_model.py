@@ -14,7 +14,7 @@ class TestStorageModel(unittest.TestCase):
 
     def tearDown(self):
         """delete json file"""
-        json_file = storage.path() 
+        json_file = storage.path()
         if os.path.exists(json_file):
             json_abs_path = os.path.abspath(json_file)
             os.remove(json_abs_path)
@@ -45,7 +45,7 @@ class TestStorageModel(unittest.TestCase):
         storage.reload()
         obj_dict3 = storage.all()
         self.assertEqual(len(obj_dict3), 3)
-        
+
     def test_save(self):
         self.assertFalse(os.path.exists(storage.path()))
         self.ob1.save()
@@ -53,7 +53,7 @@ class TestStorageModel(unittest.TestCase):
 
     def test_reload(self):
         self.assertEqual(len(storage.all()), 1)
-        
+
         obj_dict = storage.all()
         for value in obj_dict.values():
             self.assertTrue(type(value), BaseModel)

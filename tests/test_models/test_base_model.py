@@ -6,6 +6,7 @@ from models.engine.file_storage import FileStorage
 from models import storage
 import os
 
+
 class TestBaseModel(unittest.TestCase):
     """Test cases for BaseModel class"""
 
@@ -15,7 +16,7 @@ class TestBaseModel(unittest.TestCase):
 
     def tearDown(self):
         """delete json file"""
-        json_file = storage.path() 
+        json_file = storage.path()
         if os.path.exists(json_file):
             json_abs_path = os.path.abspath(json_file)
             os.remove(json_abs_path)
