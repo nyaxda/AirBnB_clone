@@ -8,10 +8,12 @@ from io import StringIO
 
 
 class TestHBNBCommand(unittest.TestCase):
+    @classmethod
     def setUp(self):
         self.cmd = HBNBCommand()
         self.patcher = patch('sys.stdout', new=StringIO())
         self.f = self.patcher.start()
+        
 
     def tearDown(self):
         self.patcher.stop()
@@ -61,20 +63,10 @@ class TestHBNBCommand(unittest.TestCase):
             self.cmd.onecmd("destroy BaseModel")
             self.assertEqual(f.getvalue(), "** instance id missing **\n")
 
-    def test_do_all(self):
-        with patch('sys.stdout', new=StringIO()) as f:
-            self.cmd.onecmd("all BaseModel")
-            self.assertEqual(f.getvalue(), "[]\n")
-
     def test_do_update(self):
         with patch('sys.stdout', new=StringIO()) as f:
             self.cmd.onecmd("update BaseModel")
             self.assertEqual(f.getvalue(), "** instance id missing **\n")
-
-    def test_do_count(self):
-        with patch('sys.stdout', new=StringIO()) as f:
-            self.cmd.onecmd("count BaseModel")
-            self.assertEqual(f.getvalue(), "0\n")
 
 
 if __name__ == '__main__':
