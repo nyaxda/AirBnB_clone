@@ -1,0 +1,96 @@
+section.places {
+    display: flex;
+    text-align: left;
+    margin-top: 0;
+    padding-top: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+}
+
+section.places article {
+    width: 390px;
+    padding: 20px;
+    margin: 20px;
+    border: solid 1px #FF5A5F;
+    border-radius: 4px;
+    position: relative;
+}
+
+section.places article h2 {
+    font-size: 30px;
+    text-align: center;
+}
+
+section.places h1 {
+    width: 100%;
+}
+
+section.places article .price_by_night {
+    color: #FF5A5F;
+    border: solid 4px #FF5A5F;
+    border-radius: 50%;
+    min-width: 60px;
+    height: 60px;
+    font-size: 30px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+section.places article .information {
+    height: 80px;
+    border-top: 1px #DDDDDD;
+    border-bottom: 1px #DDDDDD;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+}
+
+section.places article .information .max_guest,
+section.places article .information .number_bathrooms,
+section.places article .information .number_rooms {
+    line-height: 140px;
+    width: 100px;
+    height: 100%;
+    display: inline-block;
+    background-position: 50% 5px;
+    background-repeat: no-repeat;
+}
+
+section.places article .information .max_guest {
+    background: url('../images/icon_group.png') no-repeat;
+}
+
+section.places article .information .number_rooms {
+    background: url('../images/icon_bed.png') no-repeat;
+}
+
+section.places article .information .number_bathrooms {
+    background: url('../images/icon_bath.png') no-repeat;
+}
+
+section.places article .information .max_guest p,
+section.places article .information .number_bathrooms p,
+section.places article .information .number_rooms p {
+    align-self: flex-end;
+}
+
+section.places article .user,
+section.places article .description {
+    text-align: left;
+    margin-bottom: 20px;
+    margin-top: 30px;
+}
+
+section.places article h2 {
+    border-bottom: 1px solid #ded6d6;
+    padding-bottom: 10px;
+}
+section.places article h1 {
+    font-size: 28px;
+    padding: 1px 5px;
+}
